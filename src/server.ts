@@ -1,1 +1,2 @@
-console.log("execut")
+import dotenv from "dotenv"
+dotenv.config()
