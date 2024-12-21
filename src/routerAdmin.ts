@@ -1,15 +1,15 @@
 import express, { Request, Response } from "express";
 const routerAdmin = express.Router();
-import restaurantController from "./controller/restaurant.controller";
+import shopController from "./controller/shop.controller";
 
-routerAdmin.get("/", restaurantController.goHome);
-
-routerAdmin
-  .get("/login", restaurantController.getLogin)
-  .post("/login", restaurantController.processLogin);
+routerAdmin.get("/", shopController.goHome);
 
 routerAdmin
-  .get("/signup", restaurantController.getSignup)
-  .post("/signup", restaurantController.processSignup);
+  .get("/login", shopController.getLogin)
+  .post("/login", shopController.processLogin);
+
+routerAdmin
+  .get("/signup", shopController.getSignup)
+  .post("/signup", shopController.processSignup);
 
 export default routerAdmin;
