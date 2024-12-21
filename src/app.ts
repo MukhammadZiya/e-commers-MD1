@@ -1,6 +1,7 @@
 import express from "express"
 import path from "path"
 import router from "./router"
+import routerAdmin from "./routerAdmin"
 
 
 const app = express()
@@ -15,7 +16,7 @@ app.set("view engine", "ejs")
 
 
 
-// app.use("/admin", routerAdmin)
+app.use("/admin", routerAdmin)
 app.use("/", router)
 
 
