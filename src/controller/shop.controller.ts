@@ -1,10 +1,12 @@
 import { T } from "../libs/types/common";
 import { Request, Response } from "express";
 import MemberService from "../models/Member.service";
+import { MemberInput } from "../libs/types/member";
+import { MemberType } from "../libs/enums/member.enum";
 
 const shopController: T = {};
 
-shopController.goHome = (req: Response, res: Response) => {
+shopController.goHome = (req: Request, res: Response) => {
   try {
     console.log("goHome");
     res.send("Home Page");
@@ -13,7 +15,7 @@ shopController.goHome = (req: Response, res: Response) => {
   }
 };
 
-shopController.getLogin = (req: Response, res: Response) => {
+shopController.getLogin = (req: Request, res: Response) => {
   try {
     console.log("getLogin");
     res.send("login Page");
@@ -22,7 +24,7 @@ shopController.getLogin = (req: Response, res: Response) => {
   }
 };
 
-shopController.getSignup = (req: Response, res: Response) => {
+shopController.getSignup = (req: Request, res: Response) => {
   try {
     console.log("getSignup");
     res.send("signup Page");
@@ -31,7 +33,7 @@ shopController.getSignup = (req: Response, res: Response) => {
   }
 };
 
-shopController.processLogin = (req: Response, res: Response) => {
+shopController.processLogin = (req: Request, res: Response) => {
   try {
     console.log("processLogin");
     res.send("processLogin Page");
@@ -40,12 +42,22 @@ shopController.processLogin = (req: Response, res: Response) => {
   }
 };
 
-shopController.processSignup = (req: Response, res: Response) => {
+shopController.processSignup = async (req: Request, res: Response) => {
   try {
     console.log("processSignup");
-    res.send("processSignup Page");
+    console.log(req.body)
+
+    const newMember: MemberInput = req.body
+    newMember.memberType = MemberType.SHOP
+
+
+    const memberService = new MemberService()
+    const result =  await memberService.processSignup(newMember)
+
+    res.send(result);
   } catch (err) {
     console.log("Error, processSignup", err);
+    res.send(err)
   }
 };
 
