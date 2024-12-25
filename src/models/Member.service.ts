@@ -1,7 +1,7 @@
-import Errors, { Messege } from "../libs/Error";
+import Errors, { Messege } from "../libs/Errors";
 import { LoginInput, Member, MemberInput } from "../libs/types/member";
 import MemberModel from "../schema/Member.model";
-import { HttpCode } from "../libs/Error";
+import { HttpCode } from "../libs/Errors";
 import { MemberType } from "../libs/enums/member.enum";
 import * as bcrypt from "bcryptjs";
 
