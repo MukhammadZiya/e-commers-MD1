@@ -1,8 +1,10 @@
 import { T } from "../libs/types/common";
-import { Request, Response } from "express";
+import { NextFunction, Request, response, Response } from "express";
 import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
+
+import { Message } from "../libs/Errors";
 
 const memberService = new MemberService();
 
@@ -45,7 +47,7 @@ shopController.processLogin = async (req: AdminRequest, res: Response) => {
 
     req.session.member = result;
     req.session.save(function () {
-      res.send(result)
+      res.send(result);
     });
 
     // res.send(result);
@@ -67,13 +69,41 @@ shopController.processSignup = async (req: AdminRequest, res: Response) => {
 
     req.session.member = result;
     req.session.save(function () {
-      res.send(result)
+      res.send(result);
     });
 
     // res.send(result);
   } catch (err) {
     console.log("Error, processSignup", err);
     res.send(err);
+  }
+};
+
+
+shopController.checkAuthSession = async ( req : AdminRequest, res : Response) => {
+  try { 
+    console.log("checkAuthSession")
+    if (req.session?.member) res.send(`<script> alert("${req.session.member.memberNick}")</script> `)
+      else res.send(`<script> alert("${Message.NOT_AUTHENTIFICATED}")</script>`)
+  }catch(err) {
+    console.log("Error, checkAuthSession", err)
+    res.send(err)
+  }
+}
+
+shopController.verifyShop = (
+  req: AdminRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.session?.member?.memberType === MemberType.SHOP) {
+    req.member = req.session.member;
+    next();
+  } else {
+    const message = Message.NOT_AUTHENTIFICATED;
+    res.send(
+      `<script> alert("${message}"); window.location.replace('/admin/login'); </script>`
+    );
   }
 };
 

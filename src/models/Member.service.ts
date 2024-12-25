@@ -1,4 +1,4 @@
-import Errors, { Messege } from "../libs/Errors";
+import Errors, { Message } from "../libs/Errors";
 import { LoginInput, Member, MemberInput } from "../libs/types/member";
 import MemberModel from "../schema/Member.model";
 import { HttpCode } from "../libs/Errors";
@@ -22,7 +22,7 @@ class MemberService {
       return result.toJSON();
     } catch (err) {
       console.log("ERROR, model : signup", err);
-      throw new Errors(HttpCode.BAD_REQUEST, Messege.USED_NICK_PHONE);
+      throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);
     }
   }
 
@@ -34,7 +34,7 @@ class MemberService {
       )
       .exec();
 
-    if (!member) throw new Errors(HttpCode.BAD_REQUEST, Messege.NO_MEMBER_NICK);
+    if (!member) throw new Errors(HttpCode.BAD_REQUEST, Message.NO_MEMBER_NICK);
 
     const isMatch = await bcrypt.compare(
       input.memberPassword,
@@ -42,7 +42,7 @@ class MemberService {
     );
 
     if (!isMatch)
-      throw new Errors(HttpCode.UNAUTHORIZED, Messege.WRONG_PASSWORD);
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
 
     return await this.memberModel.findById(member._id).lean().exec();
   }
@@ -53,7 +53,7 @@ class MemberService {
       .findOne({ memberType: MemberType.SHOP })
       .exec();
 
-    if (exist) throw new Errors(HttpCode.BAD_REQUEST, Messege.CREATE_FAILED);
+    if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
 
     console.log("before", input.memberPassword);
     const salt = await bcrypt.genSalt();
@@ -66,7 +66,7 @@ class MemberService {
 
       return result;
     } catch (err) {
-      throw new Errors(HttpCode.BAD_REQUEST, Messege.CREATE_FAILED);
+      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
 
@@ -78,7 +78,7 @@ class MemberService {
       )
       .exec();
 
-    if (!member) throw new Errors(HttpCode.BAD_REQUEST, Messege.NO_MEMBER_NICK);
+    if (!member) throw new Errors(HttpCode.BAD_REQUEST, Message.NO_MEMBER_NICK);
 
     const isMatch = await bcrypt.compare(
       input.memberPassword,
@@ -86,7 +86,7 @@ class MemberService {
     );
 
     if (!isMatch)
-      throw new Errors(HttpCode.UNAUTHORIZED, Messege.WRONG_PASSWORD);
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
 
     return await this.memberModel.findById(member._id).exec();
   }
