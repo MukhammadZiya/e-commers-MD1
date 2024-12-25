@@ -24,7 +24,7 @@ app.use(
   session({
     secret: String(process.env.SESSION_SECRET),
     cookie: {
-      maxAge: 1000* 3600 * 60,
+      maxAge: 1000 * 3600 * 60,
     },
     store: store,
     resave: true,
@@ -32,10 +32,11 @@ app.use(
   })
 );
 
-app.use(function(req, res, next) {
-  const sessionInstance = req.session as T
-  res.locals.member = sessionInstance.member
-})
+app.use(function (req, res, next) {
+  const sessionInstance = req.session as T;
+  res.locals.member = sessionInstance.member;
+  next();
+});
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

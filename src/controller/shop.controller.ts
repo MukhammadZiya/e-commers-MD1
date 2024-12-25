@@ -1,15 +1,15 @@
 import { T } from "../libs/types/common";
-import { NextFunction, Request, response, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
-
 import { Message } from "../libs/Errors";
 
 const memberService = new MemberService();
 
 const shopController: T = {};
 
+// Home Page
 shopController.goHome = (req: Request, res: Response) => {
   try {
     console.log("goHome");
@@ -19,6 +19,7 @@ shopController.goHome = (req: Request, res: Response) => {
   }
 };
 
+// Login Page
 shopController.getLogin = (req: Request, res: Response) => {
   try {
     console.log("getLogin");
@@ -28,6 +29,7 @@ shopController.getLogin = (req: Request, res: Response) => {
   }
 };
 
+// Signup Page
 shopController.getSignup = (req: Request, res: Response) => {
   try {
     console.log("getSignup");
@@ -37,6 +39,7 @@ shopController.getSignup = (req: Request, res: Response) => {
   }
 };
 
+// Process Login
 shopController.processLogin = async (req: AdminRequest, res: Response) => {
   try {
     console.log("processLogin");
@@ -49,14 +52,13 @@ shopController.processLogin = async (req: AdminRequest, res: Response) => {
     req.session.save(function () {
       res.send(result);
     });
-
-    // res.send(result);
   } catch (err) {
     console.log("Error, processLogin", err);
     res.send(err);
   }
 };
 
+// Process Signup
 shopController.processSignup = async (req: AdminRequest, res: Response) => {
   try {
     console.log("processSignup");
@@ -71,14 +73,25 @@ shopController.processSignup = async (req: AdminRequest, res: Response) => {
     req.session.save(function () {
       res.send(result);
     });
-
-    // res.send(result);
   } catch (err) {
     console.log("Error, processSignup", err);
     res.send(err);
   }
 };
 
+shopController.logout = async (req: AdminRequest, res: Response) => {
+  try {
+    console.log("logout");
+    req.session.destroy(function () {
+      res.redirect("/admin");
+    });
+  } catch (err) {
+    console.log("Error, logout", err);
+    res.send(err);
+  }
+};
+
+// Check Authentication Session
 shopController.checkAuthSession = async (req: AdminRequest, res: Response) => {
   try {
     console.log("checkAuthSession");
@@ -91,6 +104,7 @@ shopController.checkAuthSession = async (req: AdminRequest, res: Response) => {
   }
 };
 
+// Verify Shop Middleware
 shopController.verifyShop = (
   req: AdminRequest,
   res: Response,
