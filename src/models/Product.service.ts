@@ -5,6 +5,7 @@ import { HttpCode } from "../libs/Errors";
 import { Message } from "../libs/Errors";
 import Errors from "../libs/Errors";
 import { shapeIntoMongooseObjectId } from "../libs/config";
+import { Member } from "../libs/types/member";
 
 class ProductService {
   private readonly productModel;
@@ -45,6 +46,9 @@ class ProductService {
       if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.UPDATE_FAILED)
       return result
   }
+
+
+
 }
 
 export default ProductService;
