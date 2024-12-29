@@ -72,7 +72,7 @@ shopController.processSignup = async (req: AdminRequest, res: Response) => {
 
     const newMember: MemberInput = req.body;
     newMember.memberImage = file?.path.replace(/\\/g, "/");
-    newMember.memberType = MemberType.USER;
+    newMember.memberType = MemberType.SHOP;
     const result = await memberService.processSignup(newMember);
 
     req.session.member = result;
@@ -122,6 +122,20 @@ shopController.updateChoosenProduct = async (
     console.log("updateChoosenProduct");
   } catch (err) {
     console.log("Error, updateChoosenProduct", err);
+  }
+};
+
+shopController.updateChosenUser = async (req: Request, res: Response) => {
+  try {
+    console.log("updateChosenUser");
+    const result = await memberService.updateChosenUser(req.body);
+
+    res.status(HttpCode.OK).json({ data: result });
+  } catch (err) {
+    console.log("Error, updateChosenUser", err);
+    console.log("Error, signup", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
 
