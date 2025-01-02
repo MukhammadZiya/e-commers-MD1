@@ -22,9 +22,9 @@ class MemberService {
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
-    if (!input.memberType) {
-      input.memberType = MemberType.USER;
-    }
+    // if (!input.memberType) {
+    //   input.memberType = MemberType.USER;
+    // }
 
     try {
       const result = await this.memberModel.create(input);
@@ -63,9 +63,8 @@ class MemberService {
       .findOne({ memberType: MemberType.SHOP })
       .exec();
 
-    if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+    if (!exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
 
-    console.log("before", input.memberPassword);
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
@@ -73,7 +72,7 @@ class MemberService {
 
     try {
       const result = await this.memberModel.create(input);
-
+      result.memberPassword = "";
       return result;
     } catch (err) {
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
