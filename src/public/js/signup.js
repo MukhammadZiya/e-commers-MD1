@@ -51,4 +51,13 @@ function validateSignupForm() {
     alert("Passwords differ, please check again");
     return false;
   }
+
+  const memberImage = $(".member-image").get(0).files[0]
+    ? $(".member-image").get(0).files[0].name
+    : null;
+
+  if (!memberImage) {
+    alert("Please insert restaurant image!!!");
+    return false;
+  }
 }
