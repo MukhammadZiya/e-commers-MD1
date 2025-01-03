@@ -5,11 +5,11 @@ export enum ProductSize {
   FULL_SET = "FULL_SET", // For complete furniture sets (e.g., dining table + chairs)
 }
 
-export enum ProductVolume {
-  LIGHTWEIGHT = 0.3, // Lightweight items like small stools or wall shelves
-  STANDARD = 1, // Regular-sized furniture items
-  HEAVY = 2, // Heavier items like large wardrobes or dining tables
-  EXTRA_HEAVY = 3, // Very heavy items like king-size beds or sectional sofas
+export enum ProductDimension {
+  SMALL = "SMALL", // Small-sized furniture (e.g., coffee table, bedside table)
+  STANDARD = "STANDARD", // Medium-sized furniture (e.g., 4-seater dining table, compact wardrobe)
+  LARGE = "LARGE", // Large furniture (e.g., 6-seater dining table, large wardrobe)
+  EXTRA_LARGE = "EXTRA_LARGE", // Extra-large items (e.g., conference table, king-size bed)
 }
 
 export enum ProductStatus {
