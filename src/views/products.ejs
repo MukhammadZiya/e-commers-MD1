@@ -29,7 +29,7 @@
       <div class="board">
         <div class="dishes-table">
           <span class="new-dish-txt" style="margin-bottom: 30px">
-            RESTAURANT MENU
+            FURNITO MENU
           </span>
           <table class="table table-bordered table-hover">
             <thead class="thead-light">
@@ -37,7 +37,7 @@
                 <th scope="col">T/r</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Product Type</th>
-                <th scope="col">Product Volume</th>
+                <th scope="col">Furniture Volume</th>
                 <th scope="col">Product Price</th>
                 <th scope="col">Product Left Count</th>
                 <th scope="col">Status</th>
@@ -83,6 +83,8 @@
           </div>
         </div>
         <form
+
+        onsubmit="return validateForm()"
           action="/admin/product/create"
           method="POST"
           class="dish-container"
@@ -132,32 +134,29 @@
             <div class="half-input">
               <label>Product Type</label>
               <select class="product-collection" name="productCollection">
-                <option value="DISH" selected>Dish</option>
-                <option value="SALAD">Salad</option>
-                <option value="DESSERT">Dessert</option>
-                <option value="DRINK">Drink</option>
-                <option value="OTHER">Other</option>
+                <option value="CHAIRS" selected>CHAIRS</option>
+                <option value="TABLES">TABLES</option>
+                <option value="STORAGE">STORAGE</option>
+                <option value="BEDS">BEDS</option>
+                <option value="OTHER">OTHER</option>
               </select>
             </div>
 
             <div class="half-input" id="product-collection">
-              <label>Dish Volume</label>
+              <label>Product Dimension</label>
               <select class="product-size" name="productSize">
-                <option value="SMALL">Small</option>
-                <option value="NORMAL" selected>Normal</option>
-                <option value="LARGE">Large</option>
-                <option value="SET">Set</option>
+                <option value="SINGLE" selected>SINGLE</option>
+                <option value="FULL_SET" >FULL_SET</option>
               </select>
             </div>
 
-            <div class="half-input" id="product-volume" style="display: none">
-              <label>Drink Volume</label>
-              <select class="product-volume" name="productVolume">
-                <option value="0.5">0,5 liters</option>
-                <option value="1" selected>1 liters</option>
-                <option value="1.2">1,2 liters</option>
-                <option value="1.5">1,5 liters</option>
-                <option value="2">2 liters</option>
+            <div class="half-input" id="product-dimention" style="display: none">
+              <label>Table Volume</label>
+              <select class="product-dimention" name="productDimention">
+                <option value="SMALL">SMALL</option>
+                <option value="STANDARD" selected>STANDARD</option>
+                <option value="LARGE">LARGE</option>
+                <option value="EXTRA_LARGE">EXTRA_LARGE</option>
               </select>
             </div>
           </div>
@@ -177,6 +176,7 @@
                   name="productImages"
                   class="image-one"
                   required
+                  onchange="previewFileHendler(this, 1)"
                 />
               </div>
               <div class="upload-img-box">
@@ -186,6 +186,7 @@
                   id="file"
                   name="productImages"
                   class="image-two"
+                  onchange="previewFileHendler(this, 2)"
                 />
               </div>
               <div class="upload-img-box">
@@ -195,6 +196,8 @@
                   id="file"
                   name="productImages"
                   class="image-three"
+                  onchange="previewFileHendler(this, 3)"
+
                 />
               </div>
               <div class="upload-img-box">
@@ -204,6 +207,8 @@
                   id="file"
                   name="productImages"
                   class="image-four"
+                  onchange="previewFileHendler(this, 4)"
+
                 />
               </div>
               <div class="upload-img-box">
@@ -213,9 +218,11 @@
                   id="file"
                   name="productImages"
                   class="image-five"
+                  onchange="previewFileHendler(this, 5)"
+
                 />
               </div>
-              <input name="restaurantIid" class="restaurant-id" hidden />
+              <input name="shopIid" class="shopIid" hidden />
             </div>
           </div>
 

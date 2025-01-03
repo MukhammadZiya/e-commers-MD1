@@ -1,7 +1,5 @@
 export enum ProductSize {
   SINGLE = "SINGLE", // For single items like one chair, one table, etc.
-  DOUBLE = "DOUBLE", // For items like two-seaters or double beds
-  MULTI = "MULTI", // For multi-item sets or large modular furniture
   FULL_SET = "FULL_SET", // For complete furniture sets (e.g., dining table + chairs)
 }
 

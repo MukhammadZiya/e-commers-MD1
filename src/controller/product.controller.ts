@@ -45,18 +45,29 @@ productController.createNewProduct = async (
     });
 
     await productService.createNewProduct(data);
+
+    // Success script
     res.send(
-      `<script> alert ("Sucessful creation"); window.location.replace('admin/product/all) </script>`
+      `<script>
+        alert("Successful creation");
+        window.location.replace('/admin/product/all');
+      </script>`
     );
   } catch (err) {
     console.log("Error: createNewProduct", err);
     const message =
       err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+
+    // Error script
     res.send(
-      `<script> alert ${message}; window.location.replace('admin/signup) </script>`
+      `<script>
+        alert("${message}");
+        window.location.replace('/admin/signup');
+      </script>`
     );
   }
 };
+
 
 productController.updateChoosenProduct = async (
   req: Request,
