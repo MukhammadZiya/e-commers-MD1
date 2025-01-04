@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(-45deg, #110303bf, #e37813, #011c1aba, #968383);
+  background: linear-gradient(-45deg, #110303bf, #070707, #070707, #070707);
 }
 
 .products-container a {
@@ -68,7 +68,6 @@
   width: 100%;
   height: auto;
 
-  
   display: none;
   flex-direction: column;
   align-items: center;

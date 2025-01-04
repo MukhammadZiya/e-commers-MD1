@@ -6,9 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(-45deg, #1a0b0b, #ca975d, #013a38, #b3b3b3);
-
-
+  background: linear-gradient(-45deg, #1a0b0b, #000000, #050505, #000000);
 }
 
 .home-container a {
@@ -18,7 +16,7 @@
 
 .home-container .nav-item a {
   color: #f7f5f2;
-  font-family:cursive;
+  font-family: cursive;
 }
 
 .home-container .nav-item a.disabled {
@@ -66,5 +64,24 @@
 @media (min-width: 500px) {
   .sphere path {
     stroke-width: 0.4px;
+  }
+
+  .home-container .wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 1px;
+    height: 100vh;
+  }
+
+  .home-container .el {
+    position: absolute;
+    opacity: 1;
+    width: 2px;
+    height: 24vh;
+    margin-top: -12vh;
+    transform-origin: 50% 100%;
+    background: white;
   }
 }
