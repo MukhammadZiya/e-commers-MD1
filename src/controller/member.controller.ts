@@ -1,4 +1,4 @@
-import { ExtendedRequest, LoginInput, Member } from "../libs/types/member";
+import { ExtendedRequest, LoginInput, Member, MemberUpdateInput } from "../libs/types/member";
 import { T } from "../libs/types/common";
 import { NextFunction, Request, Response } from "express";
 import MemberService from "../models/Member.service";
@@ -83,6 +83,22 @@ memberController.login = async (req: Request, res: Response) => {
     }
   };
 
+
+  memberController.updateMember = async (req: ExtendedRequest, res: Response) => {
+    try {
+      console.log("updateMember");
+  
+      const input: MemberUpdateInput = req.body;
+      if (req.file) input.memberImage = req.file.path.replace(/\\/g, "/");
+      const result = await memberService.updateMember(req.member, input);
+  
+      res.status(HttpCode.OK).json(result);
+    } catch (err) {
+      console.log("Error, updateMember:", err);
+      if (err instanceof Errors) res.status(err.code).json(err);
+      else res.status(Errors.standard.code).json(Errors.standard);
+    }
+  };
   
 
   memberController.verifyAuth = async (
