@@ -1,17 +1,18 @@
-import { ProductInput, ProductInquiry, ProductUpdateInput } from "../libs/types/product";
-import ProductModel from "../schema/Product.model";
-import { Product } from "../libs/types/product";
-import { HttpCode } from "../libs/Errors";
-import { Message } from "../libs/Errors";
-import Errors from "../libs/Errors";
-import { shapeIntoMongooseObjectId } from "../libs/config";
-import { Member } from "../libs/types/member";
-import { T } from "../libs/types/common";
 import { ProductStatus } from "../libs/enums/product.enum";
+import { shapeIntoMongooseObjectId } from "../libs/config";
+import Errors, { HttpCode, Messege } from "../libs/Errors";
+import {
+  Product,
+  ProductInput,
+  ProductInquiry,
+  ProductUpdateInput,
+} from "../libs/types/product";
+import ProductModel from "../schema/Product.model";
+import { T } from "../libs/types/common";
 import { ObjectId } from "mongoose";
+import ViewService from "./View.service";
 import { ViewInput } from "../libs/types/view";
 import { ViewGroup } from "../libs/enums/view.enum";
-import ViewService from "./View.service";
 
 class ProductService {
   private readonly productModel;
@@ -48,7 +49,7 @@ class ProductService {
       ])
       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Messege.NO_DATA_FOUND);
 
     return result;
   }
@@ -66,7 +67,7 @@ class ProductService {
       })
       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Messege.NO_DATA_FOUND);
 
     if (memberId) {
       // Check Existence
@@ -96,25 +97,22 @@ class ProductService {
 
     return result;
   }
-  
 
   /** SSR */
 
- public async getAllProducts() : Promise<Product[]> {
-  const result = await this.productModel.find().exec()
-  if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND)
+  public async getAllProducts(): Promise<Product[]> {
+    const result = await this.productModel.find().exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Messege.NO_DATA_FOUND);
 
-    return result
- }
-
-
+    return result;
+  }
 
   public async createNewProduct(input: ProductInput): Promise<Product> {
     try {
       return await this.productModel.create(input);
     } catch (err) {
-      console.log("Error, model: createNewProduct", err);
-      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+      console.error("Error, model:createNewProduct:", err);
+      throw new Errors(HttpCode.BAD_REQUEST, Messege.CREATE_FAILED);
     }
   }
 
@@ -122,16 +120,15 @@ class ProductService {
     id: string,
     input: ProductUpdateInput
   ): Promise<Product> {
+    // string => objectId
     id = shapeIntoMongooseObjectId(id);
     const result = await this.productModel
-      .findOneAndUpdate({ _id: id }, input, { new: true })
+      .findOneAndUpdate({ _id: id }, input, { new: true }) //ozgargan malumotni top
       .exec();
-      if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.UPDATE_FAILED)
-      return result
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Messege.UPDATE_FAILED);
+
+    return result;
   }
-
-
-
 }
 
 export default ProductService;

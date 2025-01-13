@@ -40,7 +40,7 @@ routerAdmin.post(
 routerAdmin.post(
   "/product/:id",
   shopController.verifyShop,
-  productController.updateChoosenProduct
+  productController.updateChosenProduct
 );
 
 routerAdmin.get("/user/all", shopController.verifyShop, shopController.getUsers);

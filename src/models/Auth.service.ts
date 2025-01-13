@@ -1,4 +1,4 @@
-import Errors, { HttpCode, Message } from "../libs/Errors";
+import Errors, { HttpCode, Messege } from "../libs/Errors";
 import { AUTH_TIMER } from "../libs/config";
 import { Member } from "../libs/types/member";
 import jwt from "jsonwebtoken";
@@ -22,7 +22,7 @@ class AuthService {
         (err, token) => {
           if (err)
             reject(
-              new Errors(HttpCode.UNAUTHORIZED, Message.TOKEN_CREATION_FAILED)
+              new Errors(HttpCode.UNAUTHORIZED, Messege.TOKEN_CREATION_FAILED)
             );
           else resolve(token as string);
         }
@@ -35,8 +35,8 @@ class AuthService {
       token,
       this.secretToken
     )) as Member;
-    console.log(`---[AUTH] memberNick: ${result.memberNick} ---`)
-    return result
+    console.log(`---[AUTH] memberNick: ${result.memberNick} ---`);
+    return result;
   }
 }
 

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import Errors, { HttpCode, Message } from "../libs/Errors";
+import Errors, { HttpCode, Messege } from "../libs/Errors";
 import { T } from "../libs/types/common";
-// import { AdminRequest } from "../libs/types/member";
 import ProductService from "../models/Product.service";
 import { ProductInput, ProductInquiry } from "../libs/types/product";
 import { AdminRequest, ExtendedRequest } from "../libs/types/member";
@@ -12,6 +11,7 @@ const productService = new ProductService();
 const productController: T = {};
 
 /** SPA */
+
 productController.getProducts = async (req: Request, res: Response) => {
   try {
     console.log("getProducts");
@@ -38,8 +38,6 @@ productController.getProducts = async (req: Request, res: Response) => {
   }
 };
 
-
-
 productController.getProduct = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("getProduct");
@@ -55,17 +53,17 @@ productController.getProduct = async (req: ExtendedRequest, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+
 /** SSR */
 
 productController.getAllProducts = async (req: Request, res: Response) => {
   try {
     console.log("getAllProducts");
-
     const data = await productService.getAllProducts();
-    console.log("data", data);
+
     res.render("products", { products: data });
   } catch (err) {
-    console.log("Error: getAllProducts", err);
+    console.log("Error, signup:", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
@@ -77,10 +75,8 @@ productController.createNewProduct = async (
 ) => {
   try {
     console.log("createNewProduct");
-    console.log("req.files", req.files);
-
     if (!req.files?.length)
-      throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);
+      throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Messege.CREATE_FAILED);
 
     const data: ProductInput = req.body;
     data.productImages = req.files?.map((ele) => {
@@ -88,43 +84,32 @@ productController.createNewProduct = async (
     });
 
     await productService.createNewProduct(data);
-
-    // Success script
     res.send(
-      `<script>
-        alert("Successful creation");
-        window.location.replace('/admin/product/all');
-      </script>`
+      `<script> alert("Successful creation!"); window.location.replace("/admin/product/all") </script>`
     );
   } catch (err) {
-    console.log("Error: createNewProduct", err);
+    console.log("Error, createNewProduct:", err);
     const message =
-      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+      err instanceof Errors ? err.message : Messege.SOMETHING_WENT_WRONG;
 
-    // Error script
     res.send(
-      `<script>
-        alert("${message}");
-        window.location.replace('/admin/signup');
-      </script>`
+      `<script> alert("${message}"); window.location.replace("/admin/product/all") </script>`
     );
   }
 };
 
-
-productController.updateChoosenProduct = async (
-  req: Request,
-  res: Response
-) => {
+productController.updateChosenProduct = async (req: Request, res: Response) => {
   try {
-    console.log("updateChoosenProduct");
-
+    console.log("updateChosenProduct");
     const id = req.params.id;
 
+    // res.send("DONE");
+
     const result = await productService.updateChoosenProduct(id, req.body);
+
     res.status(HttpCode.OK).json({ data: result });
   } catch (err) {
-    console.log("Error: updateChoosenProduct", err);
+    console.log("Error, signup:", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
